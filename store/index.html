@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#100e0b">
+  <meta name="description" content="Hirus PvP store — compare Hirus and Hirus+ ranks.">
+  <title>Store | Hirus PvP</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/config.js" defer></script>
+  <script src="/site.js" defer></script>
+  <style>
+    /* Store-only styles: the rest of the Hirus website is unchanged. */
+    :root { --s-bg:#100e0b; --s-panel:#1b1710; --s-panel-2:#211b12; --s-border:#3a3122; --s-orange:#f69b15; --s-text:#f9f7f2; --s-muted:#aa9e8b; }
+    *,*::before,*::after { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body.hirus-store { margin:0; background:radial-gradient(ellipse at 65% 0%,#29200f 0%,#13110d 42%,#0c0b09 100%); color:var(--s-text); font:500 15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif; }
+    body.hirus-store a { color:inherit; }
+    .store-wrap { width:min(1360px,calc(100% - 52px)); margin:0 auto; }
+    .store-top { min-height:74px; display:flex; align-items:center; justify-content:space-between; gap:16px; border-bottom:1px solid #ffffff12; }
+    .store-top-brand { text-decoration:none; font-size:15px; font-weight:900; letter-spacing:1.5px; }
+    .store-top-brand span { color:var(--s-orange); }
+    .store-top-right { display:flex; align-items:center; flex-wrap:wrap; gap:12px; }
+    .store-top-link { text-decoration:none; border:1px solid var(--s-border); padding:9px 16px; border-radius:9px; font-weight:800; font-size:12px; }
+    .store-top-link:hover { border-color:var(--s-orange); }
+    .store-ip { color:#c6bca9; font-size:12px; }
+    .store-login { display:inline-flex; align-items:center; gap:12px; text-decoration:none; background:#17130c; color:white; padding:7px 7px 7px 17px; border:1px solid var(--s-border); border-radius:25px; font-weight:900; font-size:12px; }
+    .store-login .login-arrow { display:grid; place-items:center; background:var(--s-orange); color:#100d06; border-radius:50%; width:32px; height:32px; font-size:20px; }
+    .store-layout-new { display:grid; grid-template-columns:280px minmax(0,1fr); gap:24px; align-items:start; padding:32px 0 58px; }
+    .store-sidebar { position:relative; }
+    .store-logo { display:block; width:100%; max-width:310px; margin:-12px auto 8px; mix-blend-mode:screen; }
+    .store-side-panel { padding:17px 15px; background:var(--s-panel); border:1px solid var(--s-border); border-radius:15px; }
+    .store-side-title { display:block; margin:0 5px 12px; font-weight:900; font-size:13px; letter-spacing:.6px; }
+    .store-menu-button { display:flex; align-items:center; gap:12px; padding:12px 13px; border-radius:10px; text-decoration:none; color:var(--s-muted)!important; font-weight:750; margin:4px 0; }
+    .store-menu-button:hover, .store-menu-button.active { background:#55380e; color:white!important; }
+    .store-menu-button.active { box-shadow:inset 0 0 0 1px #86561866; }
+    .store-menu-icon { font-size:20px; width:27px; text-align:center; }
+    .store-menu-hint { color:var(--s-muted); font-size:12px; margin:16px 5px 0; }
+    .store-main { min-width:0; }
+    .store-heading { border:1px solid var(--s-border); background:var(--s-panel); border-radius:15px; padding:21px 24px; margin-bottom:20px; }
+    .store-heading h1 { color:var(--s-orange); font-size:26px; line-height:1.15; font-weight:950; letter-spacing:.5px; margin:0 0 3px; }
+    .store-heading p { margin:0; color:var(--s-muted); font-size:13px; }
+    .store-comparison { background:var(--s-panel); border:1px solid var(--s-border); border-radius:15px; overflow:hidden; }
+    .store-ranks { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); margin-left:210px; }
+    .rank-card { min-width:0; text-align:center; padding:24px 18px 20px; border-left:1px solid var(--s-border); }
+    .rank-card h2 { font-size:17px; font-weight:950; margin:7px 0 1px; }
+    .rank-emblem { display:grid; place-items:center; margin:auto; width:71px; height:71px; font-size:33px; color:#efeff1; border:4px solid #4c4642; border-radius:19px 19px 26px 26px; background:linear-gradient(135deg,#aeb0b5 0%,#393c42 42%,#1b1d22 100%); box-shadow:0 5px 0 #0d0c0a,0 0 0 3px #100e0b inset; text-shadow:0 2px 4px black; }
+    .rank-emblem.plus { border-color:#c77a22; color:#ffcb65; background:linear-gradient(135deg,#9a6b3e,#3e2313 57%,#17130d); }
+    .rank-price { margin:3px 0 12px; font-weight:900; font-size:17px; color:#fff; }
+    .rank-price .muted { font-size:12px; color:var(--s-muted); }
+    .rank-buy { width:100%; display:flex; align-items:center; justify-content:center; text-decoration:none; background:var(--s-orange); color:#140f08!important; font-weight:950; letter-spacing:.5px; padding:11px 10px; border-radius:11px; border:0; font-size:13px; cursor:pointer; }
+    .rank-buy:hover { background:#ffb546; }
+    .rank-buy[hidden] { display:none; }
+    .rank-unavailable { width:100%; display:block; background:#554025; color:#e1c699; padding:11px 7px; border-radius:11px; font-size:12px; font-weight:800; }
+    .store-feature-group { background:#34260f; color:white; font-size:12px; text-align:center; font-weight:900; padding:10px; letter-spacing:.5px; border-top:1px solid var(--s-border); }
+    .store-feature-row { display:grid; grid-template-columns:210px 1fr 1fr; min-height:53px; border-top:1px solid #332c23; }
+    .store-feature-name { font-size:12px; padding:15px 13px; font-weight:750; align-self:center; }
+    .store-feature-cell { display:flex; align-items:center; justify-content:center; text-align:center; padding:11px; border-left:1px solid #332c23; color:var(--s-muted); font-size:12px; }
+    .feature-yes { display:inline-flex; justify-content:center; align-items:center; background:#36a858; color:white; border-radius:50%; width:24px; height:24px; font-size:16px; font-weight:900; }
+    .feature-no { display:inline-flex; justify-content:center; align-items:center; border:2px solid #8a8174; color:#b6a795; border-radius:50%; width:23px; height:23px; font-size:15px; }
+    .store-bottom-note { border:1px solid var(--s-border); background:var(--s-panel); border-radius:14px; margin-top:16px; padding:16px 19px; color:var(--s-muted); font-size:13px; }
+    .store-bottom-note strong { color:white; }
+    .store-footer { padding:21px 0 34px; border-top:1px solid #ffffff12; font-size:12px; color:var(--s-muted); display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+    .store-footer a { color:var(--s-muted)!important; text-decoration:none; margin-right:18px; }
+    .store-footer a:hover { color:var(--s-orange)!important; }
+    #toast { position:fixed; bottom:22px; right:22px; z-index:10; pointer-events:none; }
+    @media(max-width:900px) { .store-layout-new { grid-template-columns:210px minmax(0,1fr);gap:16px; } .store-ranks { margin-left:150px; } .store-feature-row { grid-template-columns:150px 1fr 1fr; } .rank-card { padding:20px 10px; } .store-feature-name { padding:12px 8px; } }
+    @media(max-width:650px) { .store-wrap {width:min(100% - 28px,520px);} .store-top { padding:14px 0; } .store-ip { display:none; } .store-layout-new { grid-template-columns:1fr; padding-top:14px; } .store-sidebar { display:grid; grid-template-columns:120px 1fr; gap:12px; align-items:center; } .store-logo { width:120px; margin:0; } .store-side-panel { padding:10px; } .store-menu-hint,.store-side-title {display:none;} .store-menu-button { padding:9px 10px; margin:0; font-size:12px; } .store-heading {padding:16px;} .store-heading h1 { font-size:22px; } .store-ranks {margin-left:0;} .rank-card { border-top:1px solid var(--s-border); } .rank-card:first-child {border-left:0;} .store-feature-row { grid-template-columns:100px 1fr 1fr; } .store-feature-name { font-size:11px; } .store-feature-cell { padding:7px 4px;font-size:11px; } .store-footer {font-size:11px;} }
+    @media(max-width:380px) { .store-logo {width:90px;} .store-sidebar {grid-template-columns:90px 1fr;} .store-menu-button {font-size:11px;} .store-menu-icon {width:19px;font-size:16px;} .rank-price {font-size:13px;} }
+  </style>
+</head>
+<body class="hirus-store">
+  <div class="store-wrap">
+    <header class="store-top">
+      <a href="/" class="store-top-brand" aria-label="Hirus PvP homepage">HIRUS<span>PVP</span></a>
+      <div class="store-top-right">
+        <span class="store-ip">hiruspvp.mcserver.us</span>
+        <a class="store-top-link" href="/">HOME</a>
+        <a class="store-login" href="/#join" aria-label="Join Hirus PvP">PLAY NOW <span class="login-arrow">➜</span></a>
+      </div>
+    </header>
+
+    <div class="store-layout-new">
+      <aside class="store-sidebar">
+        <a href="/" aria-label="Hirus PvP homepage"><img class="store-logo" src="/store/hirus-logo.png" alt="Hirus PvP logo with netherite sword"></a>
+        <nav class="store-side-panel" aria-label="Store menu">
+          <span class="store-side-title">MENU</span>
+          <a class="store-menu-button active" href="#ranks" aria-current="page"><span class="store-menu-icon">♛</span> Ranks</a>
+          <a class="store-menu-button" href="#perks"><span class="store-menu-icon">⚔</span> Rank benefits</a>
+          <a class="store-menu-button" href="/rules.html"><span class="store-menu-icon">📜</span> Rules</a>
+          <p class="store-menu-hint">Support the server and unlock rank benefits.</p>
+        </nav>
+      </aside>
+
+      <main class="store-main" id="ranks">
+        <div class="store-heading"><h1>RANKS</h1><p>Compare Hirus and Hirus+ supporter ranks.</p></div>
+        <section class="store-comparison" aria-label="Rank comparison">
+          <div class="store-ranks">
+            <article class="rank-card" id="hirus">
+              <div class="rank-emblem" aria-hidden="true">H</div>
+              <h2>HIRUS RANK</h2>
+              <p class="rank-price" data-price="hirus"><span class="muted">Price coming soon</span></p>
+              <a class="rank-buy" data-buy="hirus" hidden target="_blank" rel="noopener noreferrer">BUY HIRUS</a>
+              <span class="rank-unavailable" data-unavailable="hirus">CHECKOUT COMING SOON</span>
+            </article>
+            <article class="rank-card" id="hirus-plus">
+              <div class="rank-emblem plus" aria-hidden="true">H+</div>
+              <h2>HIRUS+ RANK</h2>
+              <p class="rank-price" data-price="hirusPlus"><span class="muted">Price coming soon</span></p>
+              <a class="rank-buy" data-buy="hirusPlus" hidden target="_blank" rel="noopener noreferrer">BUY HIRUS+</a>
+              <span class="rank-unavailable" data-unavailable="hirusPlus">CHECKOUT COMING SOON</span>
+            </article>
+          </div>
+          <div id="perks" class="store-feature-group">RANK COMPARISON</div>
+          <div class="store-feature-row"><div class="store-feature-name">Supporter rank</div><div class="store-feature-cell"><span class="feature-yes" aria-label="Included">✓</span></div><div class="store-feature-cell"><span class="feature-yes" aria-label="Included">✓</span></div></div>
+          <div class="store-feature-row"><div class="store-feature-name">Rank duration</div><div class="store-feature-cell">To be announced</div><div class="store-feature-cell">To be announced</div></div>
+          <div class="store-feature-row"><div class="store-feature-name">Rank-specific perks</div><div class="store-feature-cell">Details coming soon</div><div class="store-feature-cell">Details coming soon</div></div>
+          <div class="store-feature-row"><div class="store-feature-name">Cosmetic benefits</div><div class="store-feature-cell">Details coming soon</div><div class="store-feature-cell">Details coming soon</div></div>
+        </section>
+        <div class="store-bottom-note" id="purchase-info"><strong>Purchases aren't live yet.</strong> When real checkout URLs are added to <code>config.js</code>, the Buy buttons appear automatically. Payments take place on the external checkout provider.</div>
+      </main>
+    </div>
+    <footer class="store-footer"><div>© <span data-year>2026</span> Hirus PvP · Not affiliated with Mojang or Microsoft.</div><div><a href="/">Home</a><a href="/leaderboard.html">Leaderboard</a><a href="/rules.html">Rules</a><a href="/store/">Store</a></div></footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
