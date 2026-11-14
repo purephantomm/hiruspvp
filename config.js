@@ -7,12 +7,12 @@ window.HIRUS_CONFIG = {
   ranks: {
     hirus: {
       price: '$9.99',
-      checkoutUrl: ''
+      checkoutUrl: 'https://hiruspvp.craftingstore.net/package/1614887'
     },
 
     hirusPlus: {
       price: '$15.00',
-      checkoutUrl: ''
+      checkoutUrl: 'https://hiruspvp.craftingstore.net/package/1614899'
     }
   }
 };
